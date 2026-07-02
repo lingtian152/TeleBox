@@ -8,25 +8,24 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
-      - name: clone repo
-        run: |
-          git clone https://github.com/TeleBoxOrg/TeleBox.git
-      
+      - uses: actions/checkout@v4
+
       - uses: docker/setup-buildx-action@v3
-      
+
       - uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      
+
       - uses: docker/build-push-action@v7
         with:
           context: .
           platforms: linux/amd64,linux/arm64
           push: true
           tags: |
-            lingtianps/TeleBox:latest
-          cache-from: type=registry,ref=lingtianps/TeleBox:cache
-          cache-to:   type=registry,ref=lingtianps/TeleBox:cache,mode=max
+            lingtianps/telebox:latest
+          cache-from: type=registry,ref=lingtianps/telebox:cache
+          cache-to: type=registry,ref=lingtianps/telebox:cache,mode=max
           provenance: true
